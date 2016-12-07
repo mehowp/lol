@@ -4,6 +4,11 @@ class ChampionService {
     'ngInject;'
   }
 
+  getId(championName) {
+  	var champion =  _.find(data.champions, { 'name': championName });
+  	return champion.id;
+  }
+
   championStats(championName) {
   	var champion =  _.find(data.champions, { 'name': championName });
   	return champion.info;
