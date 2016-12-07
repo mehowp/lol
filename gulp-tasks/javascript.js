@@ -12,31 +12,38 @@ var gulp = require('gulp'),
     sourcemaps = require('gulp-sourcemaps'),
     templateCache = require('gulp-angular-templatecache');
 
-gulp.task('eslint', function(){
-    return gulp.src(['./src/js/**/*.js','!node_modules/**'])
-        .pipe(eslint())
+gulp.task('eslint', function() {
+    return gulp.src(['./src/js/**/*.js', '!node_modules/**'])
+        .pipe(eslint({useEslintrc: true}))
         .pipe(eslint.format())
-        .pipe(eslint.failAfterError());
+        .pipe(eslint.failOnError());
 });
 
 gulp.task('bundle:js', ['eslint'], function() {
-    return gulp.src(['./src/js/**/*.js', '!./src/js/templates.js'])
+    return gulp.src(['./src/js/main.js','!node_modules'])
+        .pipe(sourcemaps.init())
         .pipe(rollup({
             moduleName: 'app',
             entry: './src/js/main.js',
             allowRealFiles: true,
             format: 'iife',
-            sourceMap: false,
+            sourceMap: true,
             plugins: [
                 json(),
-               //cleanup({sourceType: "module"}),
+                //cleanup({sourceType: "module"}),
                 resolve({
                     jsnext: true,
-                   main: true,
+                    main: true,
                     browser: true,
-                    extensions: [ '.js', '.json' ],  // Default: ['.js']
+                    extensions: ['.js', '.json'], // Default: ['.js']
                 }),
-                commonjs(),
+                commonjs({
+                    namedExports: {
+                        'lodash': ['_']
+                    },
+                    ignoreGlobal: false,  // Default: false
+                    sourceMap: true
+                }),
                 // babel({
                 //   exclude: ['node_modules/**'],
                 //   compact: true,
@@ -46,25 +53,26 @@ gulp.task('bundle:js', ['eslint'], function() {
             ],
         }))
         .pipe(rename('bundle.js'))
+        .pipe(sourcemaps.write('.'))
         .pipe(gulp.dest('./dist/scripts'))
-        .on('end', function(){
+        .on('end', function() {
             gutil.log('JavaScript has been bundled.');
         })
 });
 
 
- 
-gulp.task('templates', function () {
-var TEMPLATE_HEADER = 'angular.module("<%= module %>", []).run(["$templateCache", function($templateCache) {';
 
-  return gulp.src('./dist/views/**/*.html')
-    .pipe(templateCache({
-        module: 'app',
-        moduleSystem: 'ES6',
-        templateHeader: TEMPLATE_HEADER
-    }))
-    .pipe(gulp.dest('./src/js'))
-    .on('end', function(){
-        gulp.start('clean');
-    })
+gulp.task('templates', function() {
+    var TEMPLATE_HEADER = 'angular.module("<%= module %>"<%= standalone %>).run(["$templateCache", function($templateCache) {';
+
+    return gulp.src('./dist/views/**/*.html')
+        .pipe(templateCache({
+            module: 'templates',
+            moduleSystem: 'ES6',
+            standalone: true
+        }))
+        .pipe(gulp.dest('./src/js/config'))
+        .on('end', function() {
+            gulp.start('clean');
+        })
 });

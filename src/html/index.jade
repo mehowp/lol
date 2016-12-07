@@ -2,11 +2,14 @@ html
 	head
 		title.
 			lol statistics, counterpicks, builds, ranks
+		link(rel="stylesheet" href="assets/css/main.css")
 	body
+		base(href="/")
 		header
+		sidebar
 		main(ui-view="")
 		footer
 		script.
 			var js = document.createElement('script');
-			js.setAttribute('src','./dist/scripts/bundle.js');
+			js.setAttribute('src','assets/scripts/bundle.js');
 			document.head.appendChild(js);

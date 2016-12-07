@@ -11,9 +11,9 @@ app.use(bodyParser.json());
 var assets = path.join(__dirname, '../dist');
 
 // static - all our js, css, images, etc go into the assets path
-app.use('/dist', express.static(assets) );
+app.use('/assets', express.static(assets) );
 //If we get here then the request for a static file is invalid so we may as well stop here
-app.use('/dist', function(req, res, next) {
+app.use('/assets', function(req, res, next) {
     res.sendStatus(404);
 });
 
@@ -24,6 +24,5 @@ app.all('/*', function(req, res) {
 });
 
 app.listen(3000, function () {
-	console.log(path.join(__dirname, '../dist'));
-  console.log('Example app listening on port 3000!')
-})
+  console.log('Example app listening on port 3000!');
+});

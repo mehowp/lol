@@ -1,0 +1,38 @@
+.sidebar {
+	position: fixed;
+	left: 0;
+	width: 12%;
+	height: 100%;
+
+    margin: 0;
+
+	background: black;
+    font-size: 16px;
+    li {
+        list-style-type: none;
+        display: block;
+    	padding: 0.5%;
+        width: 100%;
+        font-family: 'Roboto Mono';
+    	
+        a {
+        	color: rgba(255,255,255,0.75);
+            text-decoration: none;
+            display: inline-block;
+            margin-bottom: 0.1em;
+            width: 100%;
+            line-height: 2em;
+            cursor: pointer;
+            padding-left: 0.4em;
+            &:focus,
+            &:active,
+            &:hover {
+                    color: white;
+                    background: rgba(255,255,255,0.07);
+            }
+
+        }
+    }
+}
+
+

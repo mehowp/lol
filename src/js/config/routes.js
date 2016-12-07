@@ -6,7 +6,7 @@ let routes = ($stateProvider, $locationProvider, $urlRouterProvider) => {
 
         .state('main', {
             url: '/',
-            templateUrl: '/home.html'
+            templateUrl: 'home.html'
         });
 
 

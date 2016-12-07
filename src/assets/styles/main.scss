@@ -1,0 +1,10 @@
+@import "reset";
+@import "../fonts/css/fontello";
+body {
+	background: rgba(0,0,0,0.9);
+	padding-left: 8%;
+	color: rgba(255,255,255,0.6);
+}
+
+
+@import "components/sidebar";

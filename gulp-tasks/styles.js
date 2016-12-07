@@ -8,11 +8,11 @@ var gulp = require('gulp'),
 var processors = [autoprefixer()];
 
 gulp.task('bundle:styles', function() {
-     return gulp.src('./src/styles/main.scss')
+     return gulp.src('./src/assets/styles/main.scss')
         .pipe(sourcemaps.init())
         .pipe(sass().on('error', sass.logError))
         .pipe(postcss(processors))
-        .pipe(sourcemaps.write('../maps'))
+        .pipe(sourcemaps.write('.'))
         .pipe(gulp.dest('./dist/css'));
 
 });
